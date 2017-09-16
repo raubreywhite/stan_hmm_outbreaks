@@ -18,7 +18,7 @@ transformed data {
       trans[k1,k2] = 0;
     for (i in 2:N)
       trans[z[i - 1], z[i]] = 1 + trans[z[i - 1], z[i]];
-    
+
 }
 parameters {
   simplex[K] theta[K];  // transit probs
@@ -27,7 +27,8 @@ parameters {
 model {
   for(k in 1:K)
     theta[k] ~ dirichlet(alpha);
-  phi ~ normal(0,1);
+  phi[1] ~ beta(0,1);
+  phi[1] ~ beta(0.1,1);
   
   //z[1] ~ categorical(theta[1]);
   for (k in 1:K)

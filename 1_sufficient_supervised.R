@@ -1,6 +1,6 @@
 # clears workspace: 
 rm(list=ls()) 
-setwd("/git/example-models/misc/hmm")
+setwd("/git/stan_hmm_outbreaks/")
 library(rstan)
 
 K <- 2;
@@ -20,20 +20,8 @@ alpha <- rep(1,K);
 
 data <- list(N=N, K=K, z=z, alpha=alpha, consults=consults, outbreak=outbreak,y=y)  # To be passed on to Stan
 
-a0 <- Sys.time()
-#fit0 <- stan('continuous.stan',   
-#             data=data,iter=1000, chains=1, init=0)
-b0 <- Sys.time()
-
 a1 <- Sys.time()
-fit1 <- stan('continuous_sufficient.stan',   
+fit1 <- stan('1_sufficient_supervised.stan',   
              data=data,iter=1000, chains=1, init=0)
 b1 <- Sys.time()
 
-
-x <- rstanarm::stan_glm(y ~ outbreak,family=poisson, offset=log(consults))
-
-# Now the values for the monitored parameters are in the "samples" object, 
-# ready for inspection.
-
-print(samples, digits=3)
